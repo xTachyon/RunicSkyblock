@@ -1,0 +1,13 @@
+## Runic Paradise Plugin Config File
+---
+## Test Messages
+testAnnouncement: "Testing!"
+testPersonalMessage: "Testing personal message!"
+
+## MySQL Connection details
+dbHost: Testing
+dbPort: 3301
+dbDabatase: rpgame
+dbDatabase: rpgame
+dbUser: User
+dbPassword: pw
