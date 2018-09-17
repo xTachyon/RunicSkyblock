@@ -65,10 +65,6 @@
 			<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
 		</repository>
 		<repository>
-			<id>my-local-repo</id>
-			<url>file://C:/Users/Andrew/.m2/repository</url>
-		</repository>
-		<repository>
 			<id>elmakers-repo</id>
 			<url>http://maven.elmakers.com/repository/</url>
 		</repository>
@@ -103,14 +99,12 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<build>
-		<sourceDirectory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\src\main\java</sourceDirectory>
-		<scriptSourceDirectory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\src\main\scripts</scriptSourceDirectory>
-		<testSourceDirectory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\src\test\java</testSourceDirectory>
-		<outputDirectory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\target\classes</outputDirectory>
-		<testOutputDirectory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\target\test-classes</testOutputDirectory>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<outputDirectory>${project.basedir}/target/classes</outputDirectory>
+		<testOutputDirectory>${project.basedir}/target/test-classes</testOutputDirectory>
 		<resources>
 			<resource>
-				<directory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\src</directory>
+				<directory>${project.basedir}/src</directory>
 				<includes>
 					<include>plugin.yml</include>
 					<include>config.yml</include>
@@ -119,10 +113,10 @@
 		</resources>
 		<testResources>
 			<testResource>
-				<directory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\src\test\resources</directory>
+				<directory>${project.basedir}/src/test/resources</directory>
 			</testResource>
 		</testResources>
-		<directory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\target</directory>
+		<directory>${project.basedir}/target</directory>
 		<finalName>RunicSkyblock</finalName>
 		<pluginManagement>
 			<plugins>
@@ -293,8 +287,7 @@
 							<goal>site</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>C:\Users\Andrew\Dropbox\Eclipse
-								Workspace\RunicSkyblock\target\site</outputDirectory>
+							<outputDirectory>C${project.basedir}/target/site</outputDirectory>
 							<reportPlugins>
 								<reportPlugin>
 									<groupId>org.apache.maven.plugins</groupId>
@@ -310,20 +303,12 @@
 							<goal>deploy</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>C:\Users\Andrew\Dropbox\Eclipse
-								Workspace\RunicSkyblock\target\site</outputDirectory>
-							<reportPlugins>
-								<reportPlugin>
-									<groupId>org.apache.maven.plugins</groupId>
-									<artifactId>maven-project-info-reports-plugin</artifactId>
-								</reportPlugin>
-							</reportPlugins>
+							<outputDirectory>${project.basedir}/target/site</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
 				<configuration>
-					<outputDirectory>C:\Users\Andrew\Dropbox\Eclipse
-						Workspace\RunicSkyblock\target\site</outputDirectory>
+					<outputDirectory>${project.basedir}/target/site</outputDirectory>
 					<reportPlugins>
 						<reportPlugin>
 							<groupId>org.apache.maven.plugins</groupId>
@@ -335,6 +320,6 @@
 		</plugins>
 	</build>
 	<reporting>
-		<outputDirectory>C:\Users\Andrew\Dropbox\Eclipse Workspace\RunicSkyblock\target\site</outputDirectory>
+		<outputDirectory>${project.basedir}/target/site</outputDirectory>
 	</reporting>
 </project>
