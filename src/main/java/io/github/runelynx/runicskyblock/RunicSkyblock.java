@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
@@ -125,12 +126,17 @@ public class RunicSkyblock extends JavaPlugin implements PluginMessageListener, 
 		return instance;
 	}
 
+	private static boolean isLeaves(Material material) {
+		return material == Material.ACACIA_LEAVES || material == Material.BIRCH_LEAVES
+				|| material == Material.DARK_OAK_LEAVES || material == Material.JUNGLE_LEAVES
+				|| material == Material.OAK_LEAVES || material == Material.SPRUCE_LEAVES;
+	}
+
 	@EventHandler
 	// When player breaks a block:
 	public void onBlockBreak(BlockBreakEvent event) {
 		// if Block is a leaf Block and Player's held item
-		if (event.getBlock().getType().equals(Material.LEAVES)) {
-
+		if (isLeaves(event.getBlock().getType())) {
 			int randomNumber = 1 + (int)(Math.random() * 100); 
 
 			if (randomNumber >= 94) {
@@ -355,54 +361,63 @@ public class RunicSkyblock extends JavaPlugin implements PluginMessageListener, 
 
 	}
 
-	public void showHubAstridTravelMenu(Player p) {
+	private static Material getRandomFlower() {
+		Material[] flowers = new Material[]{
+				Material.DANDELION, Material.POPPY, Material.BLUE_ORCHID, Material.ALLIUM,
+				Material.AZURE_BLUET, Material.RED_TULIP, Material.ORANGE_TULIP, Material.WHITE_TULIP,
+				Material.PINK_TULIP, Material.OXEYE_DAISY, Material.SUNFLOWER, Material.LILAC, Material.ROSE_BUSH,
+				Material.PEONY
+		};
+		return flowers[ThreadLocalRandom.current().nextInt(flowers.length)];
+	}
 
+	public void showHubAstridTravelMenu(Player p) {
 		Inventory faithInventory = Bukkit.createInventory(null, 36, ChatColor.DARK_PURPLE + "Astrid Warp Menu");
 
 		ItemMeta meta;
 		Random random = new Random();
-		ArrayList<String> treeLore = new ArrayList<String>();
+		ArrayList<String> treeLore = new ArrayList<>();
 		treeLore.add(ChatColor.YELLOW + "Astrid is the great tree at the heart of");
 		treeLore.add(ChatColor.YELLOW + "Runic Universe. She has the power to send");
 		treeLore.add(ChatColor.YELLOW + "you between worlds. Just click where you want to go!");
 		treeLore.add(ChatColor.YELLOW + "You must find the relevant portal");
 		treeLore.add(ChatColor.YELLOW + "near Astrid to unlock it here, though.");
 
-		ItemStack tree = new ItemStack(Material.SAPLING, 1, (short) 3);
+		ItemStack tree = new ItemStack(Material.JUNGLE_SAPLING);
 		meta = tree.getItemMeta();
 		meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Astrid Warp Menu");
 		meta.setLore(treeLore);
 		tree.setItemMeta(meta);
 
-		ItemStack flower1 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower1 = new ItemStack(getRandomFlower());
 		meta = flower1.getItemMeta();
 		meta.setDisplayName("");
 		flower1.setItemMeta(meta);
-		ItemStack flower2 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower2 = new ItemStack(getRandomFlower());
 		meta = flower2.getItemMeta();
 		meta.setDisplayName("");
 		flower2.setItemMeta(meta);
-		ItemStack flower3 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower3 = new ItemStack(getRandomFlower());
 		meta = flower3.getItemMeta();
 		meta.setDisplayName("");
 		flower3.setItemMeta(meta);
-		ItemStack flower4 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower4 = new ItemStack(getRandomFlower());
 		meta = flower4.getItemMeta();
 		meta.setDisplayName("");
 		flower4.setItemMeta(meta);
-		ItemStack flower5 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower5 = new ItemStack(getRandomFlower());
 		meta = flower5.getItemMeta();
 		meta.setDisplayName("");
 		flower5.setItemMeta(meta);
-		ItemStack flower6 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower6 = new ItemStack(getRandomFlower());
 		meta = flower6.getItemMeta();
 		meta.setDisplayName("");
 		flower6.setItemMeta(meta);
-		ItemStack flower7 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower7 = new ItemStack(getRandomFlower());
 		meta = flower7.getItemMeta();
 		meta.setDisplayName("");
 		flower7.setItemMeta(meta);
-		ItemStack flower8 = new ItemStack(Material.RED_ROSE, 1, (short) random.nextInt(8 + 1));
+		ItemStack flower8 = new ItemStack(getRandomFlower());
 		meta = flower8.getItemMeta();
 		meta.setDisplayName("");
 		flower8.setItemMeta(meta);
@@ -422,15 +437,15 @@ public class RunicSkyblock extends JavaPlugin implements PluginMessageListener, 
 
 		if (p.hasPermission("ru.astrid.survival")) {
 
-			survivalIcon = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
+			survivalIcon = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
 
 			meta = survivalIcon.getItemMeta();
 			meta.setDisplayName("Warp to Survival");
 			survivalIcon.setItemMeta(meta);
 		} else {
-			survivalIcon = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+			survivalIcon = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 
-			ArrayList<String> survivalIconLore = new ArrayList<String>();
+			ArrayList<String> survivalIconLore = new ArrayList<>();
 			survivalIconLore.add(ChatColor.RED + "Find the portal to the survival world");
 			survivalIconLore.add(ChatColor.RED + "somewhere around Astrid to unlock this warp.");
 
@@ -441,13 +456,13 @@ public class RunicSkyblock extends JavaPlugin implements PluginMessageListener, 
 		}
 
 		if (p.hasPermission("ru.astrid.skyblock")) {
-			skyblockIcon = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 3);
+			skyblockIcon = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
 
 			meta = skyblockIcon.getItemMeta();
 			meta.setDisplayName("Warp to Skyblock");
 			skyblockIcon.setItemMeta(meta);
 		} else {
-			skyblockIcon = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+			skyblockIcon = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 
 			ArrayList<String> skyblockIconLore = new ArrayList<String>();
 			skyblockIconLore.add(ChatColor.RED + "Find the portal to the skyblock world");
