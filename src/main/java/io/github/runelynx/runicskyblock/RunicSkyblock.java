@@ -179,37 +179,35 @@ public class RunicSkyblock extends JavaPlugin implements PluginMessageListener, 
 	@EventHandler
 	public void onPlayerJoin(final PlayerJoinEvent pje) {
 
-		Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(instance, new Runnable() {
-			public void run() {
-				if (pje.getPlayer().getFirstPlayed() >= (new Date().getTime() - 20000)) {
-					// if player was first seen in skyblock within the
-					// last 20 seconds... update their first seen date i
-					// nDB
+		Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(instance, () -> {
+			if (pje.getPlayer().getFirstPlayed() >= (new Date().getTime() - 20000)) {
+				// if player was first seen in skyblock within the
+				// last 20 seconds... update their first seen date i
+				// nDB
 
-					MySQL MySQL = new MySQL(instance, instance.getConfig().getString("dbHost"),
-							instance.getConfig().getString("dbPort"), instance.getConfig().getString("dbDatabase"),
-							instance.getConfig().getString("dbUser"), instance.getConfig().getString("dbPassword"));
-					final Connection dbConn = MySQL.openConnection();
+				MySQL MySQL = new MySQL(instance, instance.getConfig().getString("dbHost"),
+						instance.getConfig().getString("dbPort"), instance.getConfig().getString("dbDatabase"),
+						instance.getConfig().getString("dbUser"), instance.getConfig().getString("dbPassword"));
+				final Connection dbConn = MySQL.openConnection();
 
-					try {
-						PreparedStatement dStmt = dbConn
-								.prepareStatement("UPDATE `rp_PlayerInfo` SET FirstSeenSB=? WHERE UUID=?;");
-						dStmt.setLong(1, pje.getPlayer().getFirstPlayed());
-						dStmt.setString(2, pje.getPlayer().getUniqueId().toString());
-						dStmt.executeUpdate();
-						dStmt.close();
+				try {
+					PreparedStatement dStmt = dbConn
+							.prepareStatement("UPDATE `rp_PlayerInfo` SET FirstSeenSB=? WHERE UUID=?;");
+					dStmt.setLong(1, pje.getPlayer().getFirstPlayed());
+					dStmt.setString(2, pje.getPlayer().getUniqueId().toString());
+					dStmt.executeUpdate();
+					dStmt.close();
 
-					} catch (SQLException e) {
+				} catch (SQLException e) {
 
-					}
-					Bukkit.getLogger().log(Level.INFO,
-							"Updated Skyblock FirstSeen for " + pje.getPlayer().getDisplayName());
+				}
+				Bukkit.getLogger().log(Level.INFO,
+						"Updated Skyblock FirstSeen for " + pje.getPlayer().getDisplayName());
 
-					try {
-						dbConn.close();
-					} catch (SQLException e) {
+				try {
+					dbConn.close();
+				} catch (SQLException e) {
 
-					}
 				}
 			}
 		}, 60);

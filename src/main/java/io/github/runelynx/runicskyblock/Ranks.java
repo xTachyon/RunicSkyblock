@@ -421,24 +421,13 @@ public class Ranks {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sc Converting "
 					+ user.getName() + " from " + rank + " to " + newRank);
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-			Bukkit.getServer()
-					.getScheduler()
-					.scheduleAsyncDelayedTask(RunicSkyblock.getInstance(),
-							new Runnable() {
-								public void run() {
-									Bukkit.dispatchCommand(
-											Bukkit.getConsoleSender(),
-											"faith enable " + user.getName()
-													+ " Sun");
-								}
-							}, 60);
+			Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(RunicSkyblock.getInstance(),
+							() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "faith enable " + user.getName() + " Sun"), 60);
 
 		}
-
 	}
 
 	public void nominatePlayer(Player sender, String nominee) {
-
 		MySQL MySQL = new MySQL(instance, instance.getConfig().getString(
 				"dbHost"), instance.getConfig().getString("dbPort"), instance
 				.getConfig().getString("dbDatabase"), instance.getConfig()
@@ -464,10 +453,7 @@ public class Ranks {
 				d.close();
 			}
 		} catch (SQLException e) {
-			getLogger().log(
-					Level.SEVERE,
-					"Failed DB check for nominatePlayer because: "
-							+ e.getMessage());
+			getLogger().log(Level.SEVERE, "Failed DB check for nominatePlayer because: " + e.getMessage());
 		}
 
 		if (playerFound) {

@@ -49,12 +49,7 @@ import com.wasteofplastic.askyblock.ASkyBlockAPI;
 //import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 //import mkremins.fanciful.FancyMessage;
 
-/**
- * 
- * @author Andrewxwsaa
- */
 public class Commands implements CommandExecutor {
-
 	Ranks rank = new Ranks();
 
 	// pointer to your main class, not required if you don't need methods fromfg
@@ -607,12 +602,7 @@ public class Commands implements CommandExecutor {
 
 			
 			
-			Bukkit.getServer().getScheduler()
-			.scheduleAsyncDelayedTask(instance, new Runnable() {
-				public void run() {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex reload");
-				}
-			}, 30);
+			Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(instance, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex reload"), 30);
 
 			break;
 		case "sbtest":
